@@ -111,19 +111,28 @@ function play() {
     * funzione che verifica se arriviamo al game over 
     * @param {node} cell la cella cliccata
     * @param {number[]} bomb l'array contiene le bombe
+    * @param {number[]} score punteggio dell'utente fino a quel momento
+    * @param {number[]} winningPoints il punteggio massimo raggiungibile
+    * dall'utente
     * @returns {boolean} tru se e game over oppure false
     */ 
-    function ceckGameOver (cell , bombs){
+    function ceckGameOver (cell , bombs, score, winningPoints){
         //converto il testo della cella cliccata in number
         const cellNumber =parseInt(cell.innerText);
 
     //controllo se ha beccato una bomba
     if(bomb.includes(cellNumber)){
         cell.classList.add('bomb');
-        console.log('hai perso per viaa di una bomba');
+        console.log('hai perso per via di una bomba');
         return true;
     }else{
         cell.classList.add('safe');
+        // controlliamo se ha vinto
+        if(score +1 === winningPoints){
+            console.log('gameover hai vinto(punteggio masssimo)');
+            return true;
+
+        }
         return false;
     }
     }
@@ -175,7 +184,7 @@ function play() {
     console.log(this.innerText);
 
     //
-    const isGmeOver = ceckGameOver(this, bombs);
+    const isGmeOver = ceckGameOver(this, bombs,score , winningPoints);
     if(!isGmeOver)score++
     console.log(score);
 }
