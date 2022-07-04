@@ -102,15 +102,32 @@ function play() {
     let score = 0;
     const totalBombs = 16;
 
-    //punteggio massimo
-    const winningPoints= totalCells-totalBombs
-
     const totalCells = rows * cells;
+    //punteggio massimo
+    const winningPoints = totalCells - totalBombs;
 
+
+    // mostra il giusto messaggio ed il punteggio di fine partita
+    function gameOver(score, hasWon , bombs){
+        //costruiamo il messaggio
+        const cells= document.querySelectorAll('.cell');
+
+        for(let i = 0; i < cells.length;i++){
+           const cellNumber= parseInt(cells[i].innerText)
+
+        let className = bombs.includes(cellNumber) ? 'bomb':'safe'
+            cells[i].classList.add('clicked',className);
+        }
+
+        let message = hasWon? 'Complimenti,Hai vinto: ' : 'hai perso'
+
+            message +=`Hai totalizzato ${score}punti`
+            alert (message)
+    }
   /**
     * funzione che verifica se arriviamo al game over 
     * @param {node} cell la cella cliccata
-    * @param {number[]} bomb l'array contiene le bombe
+    * @param {number[]} bombs l'array contiene le bombe
     * @param {number[]} score punteggio dell'utente fino a quel momento
     * @param {number[]} winningPoints il punteggio massimo raggiungibile
     * dall'utente
@@ -121,15 +138,15 @@ function play() {
         const cellNumber =parseInt(cell.innerText);
 
     //controllo se ha beccato una bomba
-    if(bomb.includes(cellNumber)){
+    if(bombs.includes(cellNumber)){
         cell.classList.add('bomb');
-        console.log('hai perso per via di una bomba');
+        gameOver(score, false, bombs);
         return true;
     }else{
         cell.classList.add('safe');
         // controlliamo se ha vinto
         if(score +1 === winningPoints){
-            console.log('gameover hai vinto(punteggio masssimo)');
+            gameOver(winningPoints, true,bombs);
             return true;
 
         }
@@ -146,7 +163,7 @@ function play() {
     function generateBombs(totalBombs,totalCells){
         const bombs = [];
 
-        while(bombs.lenght < totalBombs){
+        while(bombs.length < totalBombs){
         let randomNumber;
         do{
             randomNumber = Math.floor(Math.random() * totalCells) + 1;
@@ -154,6 +171,7 @@ function play() {
         while(bombs.includes(randomNumber));
         bombs.push(randomNumber);      
     }
+        console.log(bombs);
         return bombs;
 }
 /**
