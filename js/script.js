@@ -99,8 +99,32 @@ function play() {
         cells = 10;
         break;
     }
+    let score = 0;
+    const totalBombs = 16;
+
+    //punteggio massimo
+    const winningPoints= totalCells-totalBombs
 
     const totalCells = rows * cells;
+  /**
+ * funzione che genera 16+ numeru casuali diversi rappresentsnti le bombe 
+ * @param {number} totalBombs numero massimo di numeri da generare
+ * @param {number} totalCells numero massimo da randomizzare
+ * @returns {number[]} un array di numeri rappresentanti le bombe
+ */  
+    function generateBombs(totalBombs,totalCells){
+        const bombs = [];
+
+        while(bombs.lenght < totalBombs){
+        let randomNumber;
+        do{
+            randomNumber = Math.floor(Math.random() * totalCells) + 1;
+        }
+        while(bombs.includes(randomNumber));
+        bombs.push(randomNumber);      
+    }
+        return bombs;
+}
 /**
  * funzione per creare una cella
  * @param {number} cellNumber il numero da stampare in cella
@@ -127,7 +151,13 @@ function play() {
     //se arrivi qui , aggiungi pure la classe
     this.classList.add('clicked');
     console.log(this.innerText);
-    }
+
+    score++
+    console.log(score);
+}
+//genero bombe
+const bombs = generateBombs(totalBombs , totalCells);
+
     for(let i = 1 ; i <= totalCells ; i++){
         //genero una cella
         const cell = createCell(i , cells)
