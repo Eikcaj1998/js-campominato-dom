@@ -71,8 +71,14 @@ header{
     cursor: pointer;
  }
  #grid .cell.clicked{
-   background-color: dodgerblue;
    cursor: not-allowed;
    color: white;
 
  }
+ #grid .cell.safe{
+    background-color: dodgerblue;
+ }
+ #grid .cell.bomb{
+    background-color: red;
+ }
+

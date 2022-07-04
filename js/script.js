@@ -106,6 +106,28 @@ function play() {
     const winningPoints= totalCells-totalBombs
 
     const totalCells = rows * cells;
+
+  /**
+    * funzione che verifica se arriviamo al game over 
+    * @param {node} cell la cella cliccata
+    * @param {number[]} bomb l'array contiene le bombe
+    * @returns {boolean} tru se e game over oppure false
+    */ 
+    function ceckGameOver (cell , bombs){
+        //converto il testo della cella cliccata in number
+        const cellNumber =parseInt(cell.innerText);
+
+    //controllo se ha beccato una bomba
+    if(bomb.includes(cellNumber)){
+        cell.classList.add('bomb');
+        console.log('hai perso per viaa di una bomba');
+        return true;
+    }else{
+        cell.classList.add('safe');
+        return false;
+    }
+    }
+
   /**
  * funzione che genera 16+ numeru casuali diversi rappresentsnti le bombe 
  * @param {number} totalBombs numero massimo di numeri da generare
@@ -152,7 +174,9 @@ function play() {
     this.classList.add('clicked');
     console.log(this.innerText);
 
-    score++
+    //
+    const isGmeOver = ceckGameOver(this, bombs);
+    if(!isGmeOver)score++
     console.log(score);
 }
 //genero bombe
